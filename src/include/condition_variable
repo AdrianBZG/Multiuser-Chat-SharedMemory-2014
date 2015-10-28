@@ -1,0 +1,11 @@
+#ifndef CONDITION_VARIABLE_H
+#define CONDITION_VARIABLE_H
+
+#include <boost/interprocess/sync/interprocess_condition.hpp>
+
+namespace std
+{
+    using condition_variable = boost::interprocess::interprocess_condition;
+}
+
+#endif // CONDITION_VARIABLE_H

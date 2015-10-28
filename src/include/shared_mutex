@@ -1,0 +1,106 @@
+#ifndef SHARED_MUTEX_H
+#define SHARED_MUTEX_H
+
+#include <chrono>
+
+#include <boost/interprocess/sync/interprocess_sharable_mutex.hpp>
+
+namespace std
+{
+    using boost::interprocess::interprocess_sharable_mutex;
+
+    class shared_timed_mutex
+    {
+    public:
+        shared_timed_mutex(shared_timed_mutex const&) = delete;
+        shared_timed_mutex& operator=(shared_timed_mutex const&) = delete;
+
+        shared_timed_mutex();
+        ~shared_timed_mutex();
+
+        void lock_shared();
+        bool try_lock_shared();
+        template <class Rep, class Period>
+        bool try_lock_shared_for(const chrono::duration<Rep, Period>& rel_time);
+        template <class Clock, class Duration>
+        bool try_lock_shared_until(const chrono::time_point<Clock, Duration>& abs_time);
+        void unlock_shared();
+
+        void lock();
+        bool try_lock();
+        template <class Rep, class Period>
+        bool try_lock_for(const chrono::duration<Rep, Period>& rel_time);
+        template <class Clock, class Duration>
+        bool try_lock_until(const chrono::time_point<Clock, Duration>& abs_time);
+        void unlock();
+
+    private:
+        interprocess_sharable_mutex sharable_mutex_;
+    };
+
+    shared_timed_mutex::shared_timed_mutex() : sharable_mutex_()
+    {
+
+    }
+
+    shared_timed_mutex::~shared_timed_mutex()
+    {
+
+    }
+
+    void shared_timed_mutex::lock_shared()
+    {
+        sharable_mutex_.lock_sharable();
+    }
+
+    bool shared_timed_mutex::try_lock_shared()
+    {
+        return sharable_mutex_.try_lock_sharable();
+    }
+
+    template <class Rep, class Period>
+    bool shared_timed_mutex::try_lock_shared_for(const chrono::duration<Rep, Period>& rel_time)
+    {
+        return sharable_mutex_.timed_lock_sharable(rel_time);
+    }
+
+    template <class Clock, class Duration>
+    bool shared_timed_mutex::try_lock_shared_until(const chrono::time_point<Clock, Duration>& abs_time)
+    {
+        return sharable_mutex_.timed_lock_sharable(abs_time);
+    }
+
+    void shared_timed_mutex::unlock_shared()
+    {
+        sharable_mutex_.unlock_sharable();
+    }
+
+    void shared_timed_mutex::lock()
+    {
+        sharable_mutex_.lock();
+    }
+
+    bool shared_timed_mutex::try_lock()
+    {
+        return sharable_mutex_.try_lock();
+    }
+
+    template <class Rep, class Period>
+    bool shared_timed_mutex::try_lock_for(const chrono::duration<Rep, Period>& rel_time)
+    {
+        return sharable_mutex_.timed_lock(rel_time);
+    }
+
+    template <class Clock, class Duration>
+    bool shared_timed_mutex::try_lock_until(const chrono::time_point<Clock, Duration>& abs_time)
+    {
+        return sharable_mutex_.timed_lock(abs_time);
+    }
+
+    void shared_timed_mutex::unlock()
+    {
+        sharable_mutex_.unlock();
+    }
+}
+
+#endif // SHARED_MUTEX_H

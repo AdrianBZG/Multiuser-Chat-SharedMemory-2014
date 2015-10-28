@@ -1,0 +1,11 @@
+#ifndef CONDITION_VARIABLE_ANY_H
+#define CONDITION_VARIABLE_ANY_H
+
+#include <boost/interprocess/sync/interprocess_condition_any.hpp>
+
+namespace std
+{
+    using condition_variable_any = boost::interprocess::interprocess_condition_any;
+}
+
+#endif // CONDITION_VARIABLE_ANY_H

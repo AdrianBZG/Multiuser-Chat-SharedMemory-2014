@@ -1,0 +1,20 @@
+#ifndef MUTEX_H
+#define MUTEX_H
+
+#include <boost/thread/locks.hpp>
+#include <boost/interprocess/sync/interprocess_mutex.hpp>
+
+namespace std
+{
+    using mutex = boost::interprocess::interprocess_mutex;
+
+    template<typename Mutex> using lock_guard  = boost::lock_guard<Mutex>;
+    template<typename Mutex> using unique_lock = boost::unique_lock<Mutex>;
+    template<typename Mutex> using shared_lock = boost::shared_lock<Mutex>;
+
+    using defer_lock_t  = boost::defer_lock_t;
+    using try_to_lock_t = boost::try_to_lock_t;
+    using adopt_lock_t  = boost::adopt_lock_t;
+}
+
+#endif // MUTEX_H
